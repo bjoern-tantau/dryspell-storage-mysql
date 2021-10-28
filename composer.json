@@ -1,0 +1,23 @@
+{
+    "name": "dryspell/storage-mysql",
+    "description": "Elegant storage class to query a MySQL database",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "Björn Tantau",
+            "email": "bjoern@bjoern-tantau.de"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Dryspell\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=8.0",
+        "dryspell/storage-interface": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    }
+}
