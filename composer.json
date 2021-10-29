@@ -1,7 +1,7 @@
 {
     "name": "dryspell/storage-mysql",
     "description": "Elegant storage class to query a MySQL database",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "authors": [
         {
             "name": "Björn Tantau",

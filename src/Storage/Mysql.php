@@ -108,6 +108,13 @@ class Mysql implements StorageInterface, StorageSetupInterface
 
         $properties = $object->getProperties();
 
+        // Create foreign tables first
+        foreach ($properties as $option) {
+            if (is_subclass_of($option->type, ObjectInterface::class)) {
+                $this->setup($option->type);
+            }
+        }
+
         $tableName = $this->getTableName($entityName);
         try {
             $tableDefinition = $this->pdo->query("SHOW CREATE TABLE `$tableName`")->fetch();
