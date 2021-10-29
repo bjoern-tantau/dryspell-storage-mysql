@@ -31,6 +31,14 @@ class Mysql implements StorageInterface, StorageSetupInterface
 
     public function delete(ObjectInterface $entity): StorageInterface
     {
+        $idProperty = $entity::getIdProperty();
+        $id         = $entity->$idProperty;
+        $tableName  = $this->getTableName(get_class($entity));
+
+        $query = "DELETE FROM `$tableName` WHERE `$idProperty` = ?";
+        $stmt  = $this->pdo->prepare($query);
+        $stmt->execute([$id]);
+
         return $this;
     }
 
