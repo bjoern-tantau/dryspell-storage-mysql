@@ -309,12 +309,12 @@ class Mysql implements StorageInterface, StorageSetupInterface
         } else {
             if ($options->length <= self::VARCHAR_MAX) {
                 $definition .= " varchar";
+                $definition .= "({$options->length})";
             } elseif ($options->length <= self::TEXT_MAX) {
                 $definition .= " text";
             } else {
                 $definition .= " longtext";
             }
-            $definition .= "({$options->length})";
         }
         if ($options->nullable || !is_null($options->default)) {
             $definition .= " DEFAULT";
