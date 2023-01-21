@@ -93,7 +93,7 @@ class Mysql implements StorageInterface, StorageSetupInterface
                 continue;
             }
             if ($value instanceof \DateTime) {
-                $value = $value->format(\DateTime::ATOM);
+                $value = $value->format("Y-m-d H:i:s");
             }
             if ($value instanceof ObjectInterface) {
                 unset($values[$name]);
