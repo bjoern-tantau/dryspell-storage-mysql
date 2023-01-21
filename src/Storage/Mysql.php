@@ -80,6 +80,10 @@ class Mysql implements StorageInterface, StorageSetupInterface
         $properties = $entity->getProperties();
         $values     = $entity->getValues();
         foreach ($values as $name => &$value) {
+            if (!isset($properties[$name])) {
+                unset($values[$name]);
+                continue;
+            }
             if ($properties[$name]->onUpdate === 'now') {
                 unset($values[$name]);
                 continue;
@@ -95,6 +99,9 @@ class Mysql implements StorageInterface, StorageSetupInterface
                 unset($values[$name]);
                 $idProperty            = $value::getIdProperty();
                 $values[$name . '_id'] = $value->$idProperty;
+            } elseif (is_subclass_of($properties[$name]->type, ObjectInterface::class)) {
+                unset($values[$name]);
+                $values[$name . '_id'] = $value;
             }
         }
         return $values;
@@ -110,7 +117,7 @@ class Mysql implements StorageInterface, StorageSetupInterface
 
         // Create foreign tables first
         foreach ($properties as $option) {
-            if (is_subclass_of($option->type, ObjectInterface::class)) {
+            if (is_subclass_of($option->type, ObjectInterface::class) && $option->type != $entityName) {
                 $this->setup($option->type);
             }
         }

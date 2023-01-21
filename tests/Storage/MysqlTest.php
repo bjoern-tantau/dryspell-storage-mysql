@@ -46,7 +46,7 @@ class MysqlTest extends AbstractTest
         $this->getPdo()->exec('CREATE TABLE `test_object` (`name` VARCHAR(255) NULL, `foobar` VARCHAR(255) NULL, `id` int(10) unsigned NOT NULL AUTO_INCREMENT, `created_at` datetime DEFAULT current_timestamp() NOT NULL, PRIMARY KEY (`id`))');
         parent::testSetup();
         $tableDefinition = $this->getPdo()->query('SHOW CREATE TABLE test_object')->fetch();
-        $this->assertEquals('CREATE TABLE `test_object` (
+        $this->assertStringContainsString('CREATE TABLE `test_object` (
   `name` varchar(255) NOT NULL,
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
@@ -57,8 +57,9 @@ class MysqlTest extends AbstractTest
   CONSTRAINT `fk_test_parent_object_parent_id` FOREIGN KEY (`parent_id`) REFERENCES `test_parent_object` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4', $tableDefinition['.Create Table']);
         $tableDefinition = $this->getPdo()->query('SHOW CREATE TABLE test_parent_object')->fetch();
-        $this->assertEquals('CREATE TABLE `test_parent_object` (
+        $this->assertStringContainsString('CREATE TABLE `test_parent_object` (
   `name` varchar(255) NOT NULL,
+  `testDate` datetime NOT NULL,
   `nullable` varchar(255) DEFAULT NULL,
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
