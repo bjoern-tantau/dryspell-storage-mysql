@@ -176,6 +176,10 @@ class Mysql implements StorageInterface, StorageSetupInterface
     {
         $propertyDefinitions = [];
         foreach ($properties as $property => $options) {
+            if ($options->id) {
+                array_unshift($propertyDefinitions, $this->getDefinition($property, $options));
+                continue;
+            }
             $propertyDefinitions[] = $this->getDefinition($property, $options);
         }
         $definitionString = join(', ', $propertyDefinitions);

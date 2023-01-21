@@ -43,12 +43,12 @@ class MysqlTest extends AbstractTest
     {
         $this->getPdo()->exec('DROP TABLE IF EXISTS test_object');
         $this->getPdo()->exec('DROP TABLE IF EXISTS test_parent_object');
-        $this->getPdo()->exec('CREATE TABLE `test_object` (`name` VARCHAR(255) NULL, `foobar` VARCHAR(255) NULL, `id` int(10) unsigned NOT NULL AUTO_INCREMENT, `created_at` datetime DEFAULT current_timestamp() NOT NULL, PRIMARY KEY (`id`))');
+        $this->getPdo()->exec('CREATE TABLE `test_object` (`id` int(10) unsigned NOT NULL AUTO_INCREMENT, `name` VARCHAR(255) NULL, `foobar` VARCHAR(255) NULL, `created_at` datetime DEFAULT current_timestamp() NOT NULL, PRIMARY KEY (`id`))');
         parent::testSetup();
         $tableDefinition = $this->getPdo()->query('SHOW CREATE TABLE test_object')->fetch();
         $this->assertStringContainsString('CREATE TABLE `test_object` (
-  `name` varchar(255) NOT NULL,
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `parent_id` int(10) unsigned NOT NULL,
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -58,10 +58,10 @@ class MysqlTest extends AbstractTest
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4', $tableDefinition['.Create Table']);
         $tableDefinition = $this->getPdo()->query('SHOW CREATE TABLE test_parent_object')->fetch();
         $this->assertStringContainsString('CREATE TABLE `test_parent_object` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `testDate` datetime NOT NULL,
   `nullable` varchar(255) DEFAULT NULL,
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
