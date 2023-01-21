@@ -97,11 +97,13 @@ class Mysql implements StorageInterface, StorageSetupInterface
             }
             if ($value instanceof ObjectInterface) {
                 unset($values[$name]);
-                $idProperty            = $value::getIdProperty();
-                $values[$name . '_id'] = $value->$idProperty;
+                $idProperty                = $value::getIdProperty();
+                $values[$name . '_id']     = $value->$idProperty;
+                $properties[$name . '_id'] = new \stdClass();
             } elseif (is_subclass_of($properties[$name]->type, ObjectInterface::class)) {
                 unset($values[$name]);
-                $values[$name . '_id'] = $value;
+                $values[$name . '_id']     = $value;
+                $properties[$name . '_id'] = new \stdClass();
             }
         }
         return $values;
